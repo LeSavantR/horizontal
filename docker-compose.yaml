@@ -1,0 +1,78 @@
+version: '2.17.3'
+
+volumes:
+  datavol:
+  static:
+  prod_static:
+  media:
+
+# networks:
+#   frontend:
+#   backend:
+
+services:
+
+  proxy:
+    image: traefik:v2.9
+    container_name: proxy
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./provider/acme.json:/acme.json:rw
+      - ./provider/traefik.yaml:/traefik.yaml:ro
+      -  /var/run/docker.sock:/var/run/docker.sock:rw
+      - ./provider/access.log:/var/log/traefik/access.log:rw
+      - ./provider/traefik.log:/var/log/traefik/traefik.log:rw
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.rule=Host(`dash.local.host`)"
+    restart: always
+
+  application:
+    image: prop:horz
+    container_name: application
+    volumes:
+      - static:/app/static
+      - media:/app/media
+      - prod_static:/app/statics:rw
+    env_file:
+      - ./.dev.env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.application.rule=Host(`dev.local.host`)"
+    deploy:
+      mode: replicated
+      replicas: 1
+    depends_on:
+      - database
+    restart: always
+
+  database:
+    image: postgres:15.1-alpine3.17
+    container_name: database
+    volumes:
+      - datavol:/var/lib/postgresql/data
+    env_file:
+      - ./database/.database.env
+    restart: always
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
+    volumes:
+      - prod_static:/app/static:rw
+      - media:/app/media:rw
+      # - prod_static:/app/statics:rw
+      - ./server/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nginx.rule=Host(`dev.local.host`) && PathPrefix(`/static`) || PathPrefix(`/media`)"
+    depends_on:
+      - application
+    restart: always
+
+  # next:
+  #   image: next:app
+  #   container_name: next

@@ -1,0 +1,11 @@
+# Folders
+__pycache__/
+.venv/
+
+# Files
+*.env
+*.pyc
+*.yaml
+*.lock
+*.md
+*.toml

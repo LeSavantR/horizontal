@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "horizontal"
+version = "0.1.0"
+description = "Aplicación inicial de propiedad horizontal"
+authors = ["LeSavantR <ruben_hernandez1993@hotmail.es>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = "^4.2.1"
+djangorestframework = "^3.14.0"
+django-cors-headers = "^3.14.0"
+djangorestframework-simplejwt = "^5.2.2"
+autopep8 = "^2.0.2"
+psycopg2-binary = "^2.9.6"
+gunicorn = "^20.1.0"
+django-extensions = "^3.2.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
