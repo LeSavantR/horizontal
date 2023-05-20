@@ -1,4 +1,4 @@
-import uuid
+from uuid import uuid4
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin
@@ -10,17 +10,17 @@ class UserManager(BaseUserManager):
     Manager User Profiles
     """
 
-    def create_user(self, email: str, password: str, *args, **kwargs):
+    def create_user(self, email: str, password: str, *args, **kwargs) -> 'User':
         if not email:
             raise ValueError('Usuario debe tener un E-Mail')
 
         email = self.normalize_email(email)
-        user = self.model(email=email, *args, **kwargs)
+        user: 'User' = self.model(email=email, *args, **kwargs)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email: str, password, *args, **kwargs):
+    def create_superuser(self, email: str, password: str, *args, **kwargs) -> 'User':
         user = self.create_user(email, password, *args, **kwargs)
         user.is_superuser = True
         user.is_staff = True
@@ -40,7 +40,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     """
     id = models.UUIDField(
         primary_key=True,
-        default=uuid.uuid4,
+        default=uuid4,
         editable=False
     )
     email = models.EmailField(
@@ -58,10 +58,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         max_length=200,
         help_text='Apellidos de la persona.'
     )
-    # is_admin = models.BooleanField(
-    #     verbose_name='Is Admin?',
-    #     default=False
-    # )
+    is_admin = models.BooleanField(
+        verbose_name='Is Admin?',
+        default=False
+    )
     is_active = models.BooleanField(
         verbose_name='Is Active?',
         default=True
@@ -82,11 +82,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self) -> str:
         """ Get Shorty Name User """
-        return f'{self.first_name}'
+        return self.first_name
 
     def __str__(self) -> str:
         """ Get Model Instance """
-        return f'{self.email}'
+        return self.email
 
     class Meta:
         verbose_name = 'User'

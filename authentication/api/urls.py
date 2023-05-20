@@ -1,6 +1,6 @@
 from django.urls import include, path
 
-app_name = 'authentication'
+app_name = 'api'
 
 urlpatterns = [
     # path('', include([])),

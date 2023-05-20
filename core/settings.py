@@ -68,23 +68,9 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_CREDENTIALS = True
 
-CORS_ALLOWED_ORIGINS = [
-    'http://dev.local.host',
-    'http://front.local.host',
-    'http://localhost:8000',
-    'http://localhost:3000',
-    'http://127.0.0.1:8000',
-    'http://127.0.0.1:3000',
-]
+CORS_ALLOWED_ORIGINS = environ.get('CORS_ALLOWED_ORIGINS', '').split('-')
 
-CORS_ALLOW_METHODS = [
-    "GET",
-    "POST",
-    "PUT",
-    "PATCH",
-    "DELETE",
-    "OPTIONS",
-]
+CORS_ALLOW_METHODS = environ.get('CORS_ALLOW_METHODS', '').split('-')
 
 ROOT_URLCONF = 'core.urls'
 
