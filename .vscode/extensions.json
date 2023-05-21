@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "bibhasdn.django-html",
+    "ms-azuretools.vscode-docker",
+    "oderwat.indent-rainbow"
+  ]
+}

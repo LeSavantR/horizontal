@@ -3,6 +3,8 @@ FROM python:3.11-alpine3.17
 
 ENV PYTHONUNBUFFERED=1
 
+ENV PYTHONDONTWRITEBYTECODE=1
+
 RUN apk add gcc g++ cmake make mupdf-dev freetype-dev libpq-dev
 
 RUN pip install --upgrade pip
