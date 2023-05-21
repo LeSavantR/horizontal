@@ -1,9 +1,8 @@
+from datetime import timedelta
 from os import environ, path
 from pathlib import Path
-from datetime import timedelta
 
 from core.utils import strtobool
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -35,6 +34,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     'corsheaders',
     'rest_framework',
+    'django_filters',
     'django_extensions',
     'rest_framework_simplejwt',
 ]

@@ -1,5 +1,5 @@
 from uuid import uuid4
-from django.db import models
+from django.db.models import UUIDField, EmailField, CharField, BooleanField, DateTimeField
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin
 )
@@ -7,7 +7,9 @@ from django.contrib.auth.models import (
 
 class UserManager(BaseUserManager):
     """
-    Manager User Profiles
+    Manager User Profile:
+    - Create_User (Method).
+    - Create_Superuser (Method).
     """
 
     def create_user(self, email: str, password: str, *args, **kwargs) -> 'User':
@@ -38,37 +40,45 @@ class User(AbstractBaseUser, PermissionsMixin):
     - is active.
     - is staff.
     """
-    id = models.UUIDField(
+    id = UUIDField(
         primary_key=True,
         default=uuid4,
         editable=False
     )
-    email = models.EmailField(
+    email = EmailField(
         verbose_name='Email',
         max_length=255, unique=True,
         help_text='username@example.com'
     )
-    first_name = models.CharField(
+    first_name = CharField(
         verbose_name='Nombres',
         max_length=100,
         help_text='Nombres de la persona.'
     )
-    last_name = models.CharField(
+    last_name = CharField(
         verbose_name='Apellidos',
         max_length=200,
         help_text='Apellidos de la persona.'
     )
-    is_admin = models.BooleanField(
+    is_admin = BooleanField(
         verbose_name='Is Admin?',
         default=False
     )
-    is_active = models.BooleanField(
+    is_active = BooleanField(
         verbose_name='Is Active?',
         default=True
     )
-    is_staff = models.BooleanField(
+    is_staff = BooleanField(
         verbose_name='Is Staff?',
         default=False
+    )
+    date_joined = DateTimeField(
+        verbose_name='Date Joined',
+        auto_now_add=True
+    )
+    last_login = DateTimeField(
+        verbose_name='Last Login',
+        auto_now=True
     )
     objects = UserManager()
     USERNAME_FIELD = 'email'

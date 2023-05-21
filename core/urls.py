@@ -13,7 +13,7 @@ urlpatterns = [
         ])),
     ])),
     path('api/', include([
-        path('', include('authentication.api.urls'))
+        path('', include('authentication.api.urls')),
     ])),
-    path('authentication/', include('authentication.urls'))
+    path('authentication/', include('authentication.urls')),
 ]
