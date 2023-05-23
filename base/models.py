@@ -55,10 +55,26 @@ class Base(MetaBase):
 
 
 class Document(Base):
+    """
+    Document:
+    - name str.
+    - juridict_person bool.
+    - natural_person bool.
+    """
     name = CharField(
         verbose_name=_('Name'),
         max_length=255, unique=True,
         help_text=_('Name for document.')
+    )
+    legal_person = BooleanField(
+        verbose_name=_('Legal Person'),
+        default=False,
+        help_text=_('Legal person for document.')
+    )
+    natural_person = BooleanField(
+        verbose_name=_('Natural Person'),
+        default=False,
+        help_text=_('Natural person for document.')
     )
 
     def __str__(self) -> str:
@@ -67,3 +83,4 @@ class Document(Base):
     class Meta:
         verbose_name = _('Document')
         verbose_name_plural = _('Documents')
+

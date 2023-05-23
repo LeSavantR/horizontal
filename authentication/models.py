@@ -1,15 +1,20 @@
 from uuid import uuid4
-from django.db.models import UUIDField, EmailField, CharField, BooleanField, DateTimeField
+
 from django.contrib.auth.models import (
-    AbstractBaseUser, BaseUserManager, PermissionsMixin
+    AbstractBaseUser, BaseUserManager,
+    PermissionsMixin
+)
+from django.db.models import (
+    BooleanField, CharField, DateTimeField,
+    EmailField, UUIDField
 )
 
 
 class UserManager(BaseUserManager):
     """
     Manager User Profile:
-    - Create_User (Method).
-    - Create_Superuser (Method).
+    - create_user (Method).
+    - create_superuser (Method).
     """
 
     def create_user(self, email: str, password: str, *args, **kwargs) -> 'User':
@@ -33,12 +38,15 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     """
     New Model User:
-    - id.
-    - email.
-    - first name.
-    - last name.
-    - is active.
-    - is staff.
+    - id uuid.
+    - email str.
+    - first_name str.
+    - last_name str.
+    - is_admin bool.
+    - is_active bool.
+    - is_staff bool.
+    - date_joined datetime.
+    - last_login datetime.
     """
     id = UUIDField(
         primary_key=True,

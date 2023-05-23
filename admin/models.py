@@ -11,9 +11,9 @@ from authentication.models import User
 class OrganizationType(Base):
     """
     Organization Type:
-    - name.
-    - houses.
-    - apartments.
+    - name str.
+    - houses bool.
+    - apartments bool.
     """
     name = CharField(
         verbose_name=_('Name'),
@@ -42,13 +42,13 @@ class OrganizationType(Base):
 class Organization(Base):
     """
     Organization:
-    - name.
-    - doc_type.
-    - doc_num.
-    - email.
-    - address.
-    - phone.
-    - org_type.
+    - name str.
+    - doc_type ForeignKey[Document].
+    - doc_num str.
+    - email str.
+    - address str.
+    - phone str.
+    - org_type ForeignKey[OrganizationType].
     """
     name = CharField(
         verbose_name=_('Name'), max_length=255,
@@ -94,6 +94,13 @@ class Organization(Base):
 
 
 class Role(Base):
+    """
+    Role:
+    - name str.
+    - admin bool.
+    - assistant bool.
+    - owner bool.
+    """
     name = CharField(
         verbose_name=_('Name'),
         max_length=255, unique=True,
@@ -126,12 +133,12 @@ class Role(Base):
 class Permission(Base):
     """
         Permission:
-        - name
-        - view
-        - create
-        - update
-        - review
-        - admin
+        - name str.
+        - view bool.
+        - create bool.
+        - update bool.
+        - review bool.
+        - admin bool.
     """
     name = CharField(
         verbose_name=_('Name'),
@@ -174,6 +181,11 @@ class Permission(Base):
 
 class UserOrg(MetaBase):
     """
+    User Organization:
+    - user ForeignKey[User].
+    - organization ForeignKey[Organization].
+    - role ForeignKey[Role].
+    - permission ForeignKey[Permission].
     """
     user = ForeignKey(
         to=User, on_delete=CASCADE,
