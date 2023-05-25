@@ -1,13 +1,13 @@
 version: '2.17.3'
 
 volumes:
-  datavol:
+  ph_dbvol:
     external: true
-  static:
+  ph_static:
     external: true
-  prod_static:
+  ph_pstatic:
     external: true
-  media:
+  ph_media:
     external: true
 
 networks:
@@ -40,9 +40,9 @@ services:
     image: prop:horz
     container_name: application
     volumes:
-      - static:/app/static
-      - media:/app/media
-      - prod_static:/app/statics
+      - ph_static:/app/static
+      - ph_media:/app/media
+      - ph_pstatic:/app/statics
     env_file:
       - ./.dev.env
     labels:
@@ -61,7 +61,7 @@ services:
     image: postgres:15.1-alpine3.17
     container_name: database
     volumes:
-      - datavol:/var/lib/postgresql/data
+      - ph_dbvol:/var/lib/postgresql/data
     env_file:
       - ./database/.database.env
     networks:

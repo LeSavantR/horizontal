@@ -41,7 +41,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     'authentication.apps.AuthenticationConfig',
-    'admin.apps.AdminConfig',
+    'app.apps.AppConfig',
     'base.apps.BaseConfig',
     'stack.apps.StackConfig',
 ]
