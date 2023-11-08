@@ -37,7 +37,7 @@ services:
     restart: always
 
   application:
-    image: prop:horz
+    image: prop:horz-v0.1
     container_name: application
     volumes:
       - ph_static:/app/static
